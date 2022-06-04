@@ -1,0 +1,11 @@
+# TODO
+
+Bonus features are used to distinguish between the A and B students.
+
+Algorithmic features:
+- Linked lists for price range search
+- Bubble sort is optimized
+
+Programming features:
+- Unit tests
+- Singletons
