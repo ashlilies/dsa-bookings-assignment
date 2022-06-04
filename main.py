@@ -96,17 +96,17 @@ class Routines:
     @staticmethod
     def sort_customer_name():
         _svc.sort_customer_name()
-        print("Done")
+        print("Done sorting by Customer Name using Bubble Sort")
 
     @staticmethod
     def sort_package_name():
         _svc.sort_package_name()
-        print("Done")
+        print("Done sorting by Package Name using Selection Sort")
 
     @staticmethod
     def sort_package_cost():
         _svc.sort_package_cost()
-        print("Done")
+        print("Done sorting by Package Cost using Insertion Sort")
 
     # @staticmethod
     # def linear_search_cust_and_update():
@@ -271,6 +271,13 @@ class AdvancedRoutines:
     def load_options(cls):
         cls.options = dict()
         cls.options["1"] = ("Display all records", cls.display_all_records)
+        cls.options["2"] = ("Sort record by Package Pax using Comb Sort",
+                            cls.sort_package_pax_comb_sort)
+        cls.options["3"] = ("Sort record by Customer Name using Heap Sort",
+                            cls.sort_customer_name_heap_sort)
+        cls.options["4"] = ("Search record by Package Name using Jump Search "
+                            "and update record",
+                            cls.search_package_name_jump_search_multi)
 
     @classmethod
     def main_view(cls):
@@ -299,6 +306,35 @@ class AdvancedRoutines:
     @staticmethod
     def display_all_records():  # pass through
         Routines.display_all_records()
+
+    @staticmethod
+    def sort_package_pax_comb_sort():
+        _svc.adv_sort_package_pax_comb_sort()
+        Routines.previous_sort_order = AdvancedRoutines.sort_package_pax_comb_sort
+        print("Done sorting by Package Pax using Comb Sort")
+
+    @staticmethod
+    def sort_customer_name_heap_sort():
+        _svc.adv_sort_customer_name_heap_sort()
+        Routines.previous_sort_order = AdvancedRoutines.sort_customer_name_heap_sort
+        print("Done sorting by Customer Name using Heap Sort")
+
+    @staticmethod
+    def search_package_name_jump_search_multi():
+        search = input("Enter exact package name (case-insensitive): ")
+
+        print("Sorting by package name and jump searching for %s..." % search)
+        res = _svc.search_multi_package_name(search)
+
+        if Routines.previous_sort_order is not None:
+            print("Reverting to previously saved sorting order...")
+            Routines.previous_sort_order()
+
+        if len(res) == 0:
+            print("No matching booking found.")
+            return
+
+        Routines.multi_select(res)
 
 
 if __name__ == "__main__":

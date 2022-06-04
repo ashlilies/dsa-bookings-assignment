@@ -4,6 +4,7 @@
 
 from Models.Booking import Booking
 from Models.LinkedListNode import LinkedListNode
+from Services.AdvancedService import AdvancedService
 from Services.SearchService import SearchService
 from Services.SortService import SortService
 
@@ -33,14 +34,14 @@ class BookingService:
     # Create pre-initialized data
     def initialize_data(self):
         bookings = [Booking("Sentosa Family Package", "Simon Yee", 3, 500),
-                    Booking("Marina Sands Package", "Lee Chit Boon", 3, 235),
-                    Booking("Shangri-La Package", "Novita Kho", 3, 340),
-                    Booking("NYP Overnight Staycay", "Leow Zhen Zhen", 2, 20),
+                    Booking("Marina Sands Package", "Lee Chit Boon", 2, 235),
+                    Booking("Shangri-La Package", "Novita Kho", 5, 340),
+                    Booking("NYP Overnight Staycay", "Leow Zhen Zhen", 1, 20),
                     Booking("Hotel 81", "Roy Ng", 3, 50),
                     Booking("Marriott Hotel", "Bobby Liu", 3, 550),
-                    Booking("Grand Park Package", "Chan Yuen Loong", 3, 999),
-                    Booking("Plaza Hotels", "Leung Sai Cheong", 3, 1239),
-                    Booking("At-Home Package", "Gabriel Choo", 3, 10),
+                    Booking("Grand Park Package", "Chan Yuen Loong", 8, 999),
+                    Booking("Plaza Hotels", "Leung Sai Cheong", 4, 1239),
+                    Booking("At-Home Package", "Gabriel Choo", 5, 10),
                     Booking("Underwater Package", "Tan Ai Lian", 3, 100)]
         self.__data += bookings
 
@@ -133,3 +134,14 @@ class BookingService:
         return res
 
     # Methods starting with 'adv' are for advanced features
+    def adv_sort_package_pax_comb_sort(self):
+        AdvancedService.comb_sort(self.__data, key=lambda x: x.no_of_pax)
+
+    def adv_sort_customer_name_heap_sort(self):
+        AdvancedService.heap_sort(self.__data, key=lambda x: x.customer_name)
+
+    def adv_search_package_name_jump_search_multi(self, package_name: str):
+        self.sort_package_name()
+        return AdvancedService.jump_multi_search(self.__data,
+                                                 key=lambda x: x.package_name,
+                                                 value=package_name)
