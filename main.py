@@ -14,7 +14,7 @@ MIN_PAX_COUNT = 1
 MAX_PAX_COUNT = 9
 
 # Main view
-# TAL: Can add additional fields, or reuse same fields for advanced features.
+# Teacher: Can add additional fields, or reuse same fields for advanced feature
 #      Additional features must not be covered in the module;
 #      NOT Merge Sort etc. No bonus marks for that.
 # DONE: Search returns duplicate vals and allows selecting intended record
