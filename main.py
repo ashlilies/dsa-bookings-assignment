@@ -9,6 +9,10 @@ from Services.BookingService import BookingService
 _svc = BookingService.get_instance()
 
 
+# These variables set the min and max pax count inclusive
+MIN_PAX_COUNT = 1
+MAX_PAX_COUNT = 9
+
 # Main view
 # TAL: Can add additional fields, or reuse same fields for advanced features.
 #      Additional features must not be covered in the module;
@@ -204,13 +208,23 @@ class Routines:
     @staticmethod
     def update_booking(booking: Booking):
         booking.package_name = input("Enter new package name: ")
-        booking.customer_name = input("Enter new customer name: ")
+        while 1:
+            name = input("Enter new customer name: ")
+            if name.isalpha():
+                booking.customer_name = name
+                break
+            print("Customer name must be alphabetical and not contain numbers!")
+
         while 1:
             try:
-                n = input("Enter no. of pax: ")
+                n = input("Enter no. of pax (%d-%d): " % (MIN_PAX_COUNT, MAX_PAX_COUNT))
                 n = int(n)
-                if n <= 0:
-                    print("No. of pax must be positive!")
+                if n < MIN_PAX_COUNT:
+                    print("No. of pax must be at least %d!" % MIN_PAX_COUNT)
+                    continue
+                if n > MAX_PAX_COUNT:
+                    print("Maximum of %d pax allowed!" % MAX_PAX_COUNT)
+                    continue
                 booking.no_of_pax = n
                 break
             except Exception as e:
@@ -271,11 +285,13 @@ class AdvancedRoutines:
     def load_options(cls):
         cls.options = dict()
         cls.options["1"] = ("Display all records", cls.display_all_records)
-        cls.options["2"] = ("Sort record by Package Pax using Comb Sort",
-                            cls.sort_package_pax_comb_sort)
+        cls.options["2"] = ("Sort record by Package Cost using Comb Sort",
+                            cls.sort_package_cost_comb_sort)
         cls.options["3"] = ("Sort record by Customer Name using Heap Sort",
                             cls.sort_customer_name_heap_sort)
-        cls.options["4"] = ("Search record by Package Name using Jump Search "
+        cls.options["4"] = ("Sort record by Package Pax using Counting Sort",
+                            cls.sort_package_pax_count_sort)
+        cls.options["5"] = ("Search record by Package Name using Jump Search "
                             "and update record",
                             cls.search_package_name_jump_search_multi)
 
@@ -308,16 +324,22 @@ class AdvancedRoutines:
         Routines.display_all_records()
 
     @staticmethod
-    def sort_package_pax_comb_sort():
-        _svc.adv_sort_package_pax_comb_sort()
-        Routines.previous_sort_order = AdvancedRoutines.sort_package_pax_comb_sort
-        print("Done sorting by Package Pax using Comb Sort")
+    def sort_package_cost_comb_sort():
+        _svc.adv_sort_package_cost_comb_sort()
+        Routines.previous_sort_order = AdvancedRoutines.sort_package_cost_comb_sort
+        print("Done sorting by Package Cost using Comb Sort")
 
     @staticmethod
     def sort_customer_name_heap_sort():
         _svc.adv_sort_customer_name_heap_sort()
         Routines.previous_sort_order = AdvancedRoutines.sort_customer_name_heap_sort
         print("Done sorting by Customer Name using Heap Sort")
+
+    @staticmethod
+    def sort_package_pax_count_sort():
+        _svc.adv_sort_package_pax_count_sort(MIN_PAX_COUNT, MAX_PAX_COUNT)
+        Routines.previous_sort_order = AdvancedRoutines.sort_package_pax_count_sort
+        print("Done sorting by Package Pax using Counting Sort")
 
     @staticmethod
     def search_package_name_jump_search_multi():

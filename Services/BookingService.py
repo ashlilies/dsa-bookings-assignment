@@ -134,11 +134,16 @@ class BookingService:
         return res
 
     # Methods starting with 'adv' are for advanced features
-    def adv_sort_package_pax_comb_sort(self):
-        AdvancedService.comb_sort(self.__data, key=lambda x: x.no_of_pax)
+    def adv_sort_package_cost_comb_sort(self):
+        AdvancedService.comb_sort(self.__data, key=lambda x: x.cost_per_pax)
 
     def adv_sort_customer_name_heap_sort(self):
         AdvancedService.heap_sort(self.__data, key=lambda x: x.customer_name)
+
+    # Not in-place
+    def adv_sort_package_pax_count_sort(self, min_val, max_val):
+        self.__data = AdvancedService.count_sort(self.__data, min_val, max_val,
+                                                 key=lambda x: x.no_of_pax)
 
     def adv_search_package_name_jump_search_multi(self, package_name: str):
         self.sort_package_name()

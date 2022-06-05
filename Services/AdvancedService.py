@@ -3,7 +3,7 @@
 # Tutorial Group: IT2101
 
 # Provides a variety of static methods allowing for advanced search and sort
-# Included algorithms: comb sort, heap sort, jump search
+# Included algorithms: comb sort, heap sort, counting sort, jump search
 import math
 
 
@@ -71,6 +71,32 @@ class AdvancedService:
             AdvancedService._swap_indices(obj_list, 0, i)
             AdvancedService._heapify(obj_list, key, i, 0)
 
+    # Counting sort
+    # An integer sorting algorithm that is not in-place
+    @staticmethod
+    def count_sort(obj_list: list, min_int, max_int, key: callable):
+        def _ckey(n):
+            return n - min_int
+
+        k = max_int - min_int  # number of distinct keys
+
+        count = [0 for x in range(k+1)]
+        output = [None for x in range(len(obj_list))]
+
+        for i in range(0, len(obj_list)):
+            j = _ckey(key(obj_list[i]))
+            count[j] += 1
+
+        for i in range(1, k+1):
+            count[i] += count[i-1]
+
+        for i in range(len(obj_list) - 1, 0-1, -1):
+            j = _ckey(key(obj_list[i]))
+            count[j] -= 1
+            output[count[j]] = obj_list[i]
+
+        return output
+
     # Search algorithms
     # Jump search - O(sqrt(n)) time
     # Prerequisite: sorted array like binary search
@@ -92,7 +118,7 @@ class AdvancedService:
         while key(sorted_data_list[int(prev)]) < value:
             prev += 1
             if prev == min(step, n):  # reached next block or end of array,
-                return res           # meaning element is not present
+                return res  # meaning element is not present
 
         # if it is found
         if key(sorted_data_list[int(prev)]) == value:
