@@ -210,7 +210,7 @@ class Routines:
         booking.package_name = input("Enter new package name: ")
         while 1:
             name = input("Enter new customer name: ")
-            if name.isalpha():
+            if name.replace(' ', '').isalpha():
                 booking.customer_name = name
                 break
             print("Customer name must be alphabetical and not contain numbers!")

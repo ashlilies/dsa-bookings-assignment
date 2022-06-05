@@ -60,7 +60,7 @@ class BookingService:
 
     # Insertion sort
     def sort_package_cost(self):
-        self.__sort_svc.insertion_sort(self.__data, lambda x: x.cost_per_pax.lower())
+        self.__sort_svc.insertion_sort(self.__data, lambda x: x.cost_per_pax)
 
     # Searching methods - returns editable object reference or null
     # Ignore case sensitivity
