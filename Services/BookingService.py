@@ -115,6 +115,9 @@ class BookingService:
                 break
             start_node = start_node.next
 
+        if key(start_node.data) > end:
+            return []
+
         end_node = start_node
         while end_node.next != None:
             if key(end_node.data) <= end and key(end_node.next.data) > end:
