@@ -207,9 +207,14 @@ class Routines:
     # TODO: Check if package name already exists - update method in service?
     @staticmethod
     def update_booking(booking: Booking):
-        booking.package_name = input("Enter new package name: ")
+        print("[Press ENTER to accept defaults]")
+        pname = input("Enter new package name [%s]: " % booking.package_name)
+        if pname != "":
+            booking.package_name = pname
         while 1:
-            name = input("Enter new customer name: ")
+            name = input("Enter new customer name [%s]: " % booking.customer_name)
+            if name == "":
+                break
             if name.replace(' ', '').isalpha():
                 booking.customer_name = name
                 break
@@ -217,7 +222,9 @@ class Routines:
 
         while 1:
             try:
-                n = input("Enter no. of pax (%d-%d): " % (MIN_PAX_COUNT, MAX_PAX_COUNT))
+                n = input("Enter no. of pax (%d-%d) [%d]: " % (MIN_PAX_COUNT, MAX_PAX_COUNT, booking.no_of_pax))
+                if n == "":
+                    break
                 n = int(n)
                 if n < MIN_PAX_COUNT:
                     print("No. of pax must be at least %d!" % MIN_PAX_COUNT)
@@ -232,7 +239,9 @@ class Routines:
 
         while 1:
             try:
-                price = input("Enter package cost per pax: $")
+                price = input("Enter package cost per pax [$%.2f]: $" % booking.cost_per_pax)
+                if price == "":
+                    break
                 price = float(price)
                 if price <= 0:
                     print("Please enter a valid positive price!")
